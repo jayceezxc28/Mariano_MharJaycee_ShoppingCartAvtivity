@@ -60,12 +60,128 @@ namespace quiz
             }
             };
 
-            Console.WriteLine("ID    Name            Price      Remaining Stock");
+            int[] cartIds = new int[10];
+            int[] cartQty = new int[10];
+            double[] cartSub = new double[10];
+            int cartCount = 0;
 
-            for(int a = 0; a<product.Length; a++)
+            
+            string choice = "Y";
+
+            do
             {
-                product[a].DisplayProduct();
+                Console.WriteLine("\n----- STORE MENU -----");
+                Console.WriteLine("ID    Name            Price      Stock");
+
+                for (int i = 0; i < product.Length; i++)
+                {
+                    product[i].DisplayProduct();
+                }
+
+                Console.Write("\nEnter product ID: ");
+                int id;
+                if (!int.TryParse(Console.ReadLine(), out id) || id < 1 || id > product.Length)
+                {
+                    Console.WriteLine("Invalid product number!");
+                    continue;
+                }
+
+                Product selected = product[id - 1];
+
+                if (selected.RemainingStock == 0)
+                {
+                    Console.WriteLine("Out of stock!");
+                    continue;
+                }
+
+                Console.Write("Enter quantity: ");
+                int qty;
+                if (!int.TryParse(Console.ReadLine(), out qty) || qty <= 0)
+                {
+                    Console.WriteLine("Invalid quantity!");
+                    continue;
+                }
+
+                if (qty > selected.RemainingStock)
+                {
+                    Console.WriteLine("Not enough stock available.");
+                    continue;
+                }
+
+                bool found = false;
+
+                for (int i = 0; i < cartCount; i++)
+                {
+                    if (cartIds[i] == id)
+                    {
+                        cartQty[i] += qty;
+                        cartSub[i] = product[id - 1].GetItemTotal(cartQty[i]);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    if (cartCount >= cartIds.Length)
+                    {
+                        Console.WriteLine("Cart is full.");
+                        continue;
+                    }
+
+                    cartIds[cartCount] = id;
+                    cartQty[cartCount] = qty;
+                    cartSub[cartCount] = selected.GetItemTotal(qty);
+                    cartCount++;
+                }
+
+                selected.RemainingStock -= qty;
+
+                Console.WriteLine("Item added to cart!");
+
+                Console.Write("Add more? (Y/N): ");
+                choice = Console.ReadLine().ToUpper();
+
+            } while (choice == "Y");
+
+            double grandTotal = 0;
+
+            Console.WriteLine("\n----- RECEIPT -----");
+            Console.WriteLine("Item            Quantity   Subtotal");
+
+            for (int i = 0; i < cartCount; i++)
+            {
+                string name = product[cartIds[i] - 1].Name;
+                Console.WriteLine($"{name,-15} {cartQty[i],-10} {cartSub[i],-10}");
+                grandTotal += cartSub[i];
             }
+
+            Console.WriteLine($"\nGrand Total: {grandTotal}");
+
+            double discount = 0;
+
+            if (grandTotal >= 5000)
+            {
+                discount = grandTotal * 0.10;
+                Console.WriteLine($"Discount (10%): {discount}");
+            }
+
+            double finalTotal = grandTotal - discount;
+
+            Console.WriteLine($"Final Total: {finalTotal}");
+
+            Console.WriteLine("\n----- UPDATED STOCK -----");
+            Console.WriteLine("ID    Name            Price      Stock");
+
+            for (int i = 0; i < product.Length; i++)
+            {
+                product[i].DisplayProduct();
+            }
+
+            Console.WriteLine("\nThank you for shopping!");
+
+            
+            
 
         }
     }
