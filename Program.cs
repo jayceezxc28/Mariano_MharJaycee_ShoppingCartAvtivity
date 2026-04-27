@@ -16,6 +16,14 @@ namespace quiz
         {
             return Price * quantity;
         }
+        public bool HasStock(int qty)
+        {
+            return qty <= RemainingStock;
+        }
+        public void DeductStock(int qty)
+        {
+            RemainingStock -= qty;
+        }
 
     }
     class Program
@@ -102,7 +110,7 @@ namespace quiz
                     continue;
                 }
 
-                if (qty > selected.RemainingStock)
+                if (!selected.HasStock(qty))
                 {
                     Console.WriteLine("Not enough stock available.");
                     continue;
@@ -135,12 +143,19 @@ namespace quiz
                     cartCount++;
                 }
 
-                selected.RemainingStock -= qty;
+                selected.DeductStock(qty);
 
                 Console.WriteLine("Item added to cart!");
 
                 Console.Write("Add more? (Y/N): ");
                 choice = Console.ReadLine().ToUpper();
+
+                while (choice != "Y" && choice != "N")
+                {
+                    Console.WriteLine("Invalid input! Please type only Y or N.");
+                    Console.Write("Add more? (Y/N): ");
+                    choice = Console.ReadLine().ToUpper();
+                }
 
             } while (choice == "Y");
 
