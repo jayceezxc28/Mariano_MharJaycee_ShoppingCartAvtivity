@@ -141,16 +141,29 @@ namespace quiz
         break;
     }
 
-    if (cartCount < cartIds.Length)
+    bool exists = false;
+
+    for (int i = 0; i < cartCount; i++)
+    {
+        if (cartIds[i] == id)
+        {
+            cartQty[i] += qty;
+            cartSub[i] = product[id - 1].GetItemTotal(cartQty[i]);
+            exists = true;
+            break;
+        }
+    }
+
+    if (!exists)
     {
         cartIds[cartCount] = id;
         cartQty[cartCount] = qty;
         cartSub[cartCount] = selected.GetItemTotal(qty);
         cartCount++;
-
-        selected.DeductStock(qty);
-        Console.WriteLine("Item added!");
     }
+
+    selected.DeductStock(qty);
+    Console.WriteLine("Item added!");
 
     break;
 
