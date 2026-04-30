@@ -473,15 +473,15 @@ namespace quiz
 
                     double finalTotal = total - discount;
                     
-                    Console.WriteLine($"\n Grand Total: {total}");
-                    Console.WriteLine($"Discount 10%: {discount}");
-                    Console.WriteLine($"Final Total: {finalTotal}");
+                    Console.WriteLine($"\n Grand Total: PHP {total}");
+                    Console.WriteLine($"Discount 10%: PHP {discount}");
+                    Console.WriteLine($"Final Total: PHP {finalTotal}");
                     
                     double payment;
 
                     while (true)
                     {
-                        Console.Write("Enter payment: ");
+                        Console.Write("Enter payment: PHP ");
                         
                         if (!double.TryParse(Console.ReadLine(), out payment))
                             continue;
@@ -491,7 +491,7 @@ namespace quiz
                             continue;
                         }
                         
-                        Console.WriteLine($"Change: {payment - finalTotal}");
+                        Console.WriteLine($"Change: PHP {payment - finalTotal}");
                         break; 
                     }
                     if (historyIndex < history.Length)
@@ -500,11 +500,29 @@ namespace quiz
                         historyIndex++;
                     }
 
+                    string showHistory;
+
+                    Console.Write("\nView order history? (Y/N): ");
+                    showHistory = Console.ReadLine().ToUpper().Trim();
+                    while (showHistory != "Y" && showHistory != "N")
+                    {
+                      Console.Write("Type only 'Y' (yes) or 'N' (no): ");
+                      showHistory = Console.ReadLine().ToUpper().Trim();
+                    }
+
+                    if (showHistory == "Y")
+                    {
+    
                     Console.WriteLine("\n--- ORDER HISTORY ---");
+    
                     for (int i = 0; i < historyIndex; i++)
                     {
-                        Console.WriteLine($"Receipt #{i + 1:D4}: {history[i]}"); 
+        
+                   Console.WriteLine($"Receipt #{i + 1:D4}: {history[i]}");
                     }
+                    }
+
+
 
                     Console.WriteLine("\n--- LOW STOCK ALERT ---");
                     for (int i = 0; i < product.Length; i++)
