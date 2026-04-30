@@ -283,6 +283,7 @@ namespace quiz
                 {
                     if (cartIds[i] == updateId)
                     {
+                        found=true;
                         Console.Write("Enter new quantity: ");
                         int newQty;
 
