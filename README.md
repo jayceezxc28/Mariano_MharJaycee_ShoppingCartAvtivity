@@ -16,15 +16,20 @@ The prompts I asked included questions like how to properly use arrays for a car
 After using AI, I improved my program by organizing my code better, adding proper validation checks, fixing logic for updating existing cart items, and making the receipt and stock management more accurate and user-friendly.
 
 Enhanced Shopping Cart Program AI Usage Part 2:
+
 I used AI to improve several features in my shopping cart program while still developing, testing, and organizing the final code myself. First, I used AI to learn how to implement search functionality for both product names and categories without requiring exact spelling. This helped me understand how to use partial matching with Contains() and case-insensitive comparisons, making my search system more flexible and user-friendly. Next, I asked AI how to display the current date and time in C# so I could include it in my receipt system and meet the project requirements more effectively.
 Prompts/questions I asked:
 
 "How do I improve my cart system with remove, update quantity, and clear cart options?"
-"How do I search through my product array by name or category without exact spelling? (*provided my code)"
+
+"How do I search through my product array by name or category without exact spelling?"
+
 "How do I print the current date and time in C#?"
+
 "Is there any major bugs or logic issues in my shopping cart system?"
 
 Enhanced Shopping Cart Program Features Part 2:
+
 I improved my original program by turning it from a basic add-to-cart and checkout system into a more complete and interactive store management application. Instead of only letting users select products and immediately proceed to checkout, I added a full menu-driven system where users can now choose to add products, manage their cart, search for products by name, search by category, or checkout. This made the program feel more organized and realistic, similar to how an actual shopping system works.
 
 I upgraded the Add Product feature by improving input validation for product IDs and quantities, making sure users cannot enter invalid values or purchase more than the available stock. I also added a feature where if a product is already in the cart, the program automatically updates its quantity instead of adding a duplicate entry. This made cart handling more efficient and user-friendly.
