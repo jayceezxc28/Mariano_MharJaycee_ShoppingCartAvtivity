@@ -473,7 +473,9 @@ namespace quiz
 
                     double finalTotal = total - discount;
                     
-                    Console.WriteLine($"\nFinal Total: {finalTotal}");
+                    Console.WriteLine($"\n Grand Total: {total}");
+                    Console.WriteLine($"Discount 10%: {discount}");
+                    Console.WriteLine($"Final Total: {finalTotal}");
                     
                     double payment;
 
@@ -484,8 +486,10 @@ namespace quiz
                         if (!double.TryParse(Console.ReadLine(), out payment))
                             continue;
                         
-                        if (payment < finalTotal)
+                        if (payment < finalTotal){
+                            Console.WriteLine("Insufficient Payment!");
                             continue;
+                        }
                         
                         Console.WriteLine($"Change: {payment - finalTotal}");
                         break; 
@@ -522,7 +526,7 @@ namespace quiz
 
                 
             }while(orderAgain=="Y");
-            Console.WriteLine("Thank you!");
+            Console.WriteLine("Thank you for Shopping!");
             
             
 
