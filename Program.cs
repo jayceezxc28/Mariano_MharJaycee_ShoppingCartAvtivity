@@ -2,78 +2,123 @@ using System;
 namespace quiz
 {
     class Product
+{
+    private int id;
+    private string name;
+    private double price;
+    private int remainingStock;
+    private string category;
+
+    public void displayProduct()
     {
-        public int Id;
-        public string Name;
-        public double Price;
-        public int RemainingStock;
-        public string Category;
-
-        public void DisplayProduct()
-        {
-            Console.WriteLine($"{Id, -5} {Name, -15} {Price, -10} {RemainingStock, -10} {Category, 10}");
-        }
-        public double GetItemTotal(int quantity)
-        {
-            return Price * quantity;
-        }
-        public bool HasEnoughStock(int qty)
-        {
-            return qty <= RemainingStock;
-        }
-        public void DeductStock(int qty)
-        {
-            RemainingStock -= qty;
-        }
-
+        Console.WriteLine($"{getId(),-5} {getName(),-15} {getPrice(),-10} {getRemainingStock(),-10} {getCategory(),10}");
     }
+
+    public double getItemTotal(int quantity)
+    {
+        return getPrice() * quantity;
+    }
+
+    public bool hasEnoughStock(int qty)
+    {
+        return qty <= getRemainingStock();
+    }
+
+    public void deductStock(int qty)
+    {
+        setRemainingStock(getRemainingStock() - qty);
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setName(string name)
+    {
+        this.name = name;
+    }
+
+    public string getName()
+    {
+        return name;
+    }
+
+    public void setPrice(double price)
+    {
+        this.price = price;
+    }
+
+    public double getPrice()
+    {
+        return price;
+    }
+
+    public void setRemainingStock(int remainingStock)
+    {
+        this.remainingStock = remainingStock;
+    }
+
+    public int getRemainingStock()
+    {
+        return remainingStock;
+    }
+
+    public void setCategory(string category)
+    {
+        this.category = category;
+    }
+
+    public string getCategory()
+    {
+        return category;
+    }
+}
     class Program
     {
         static void Main(string[] args)
         {
-            Product[] product = new Product[] {
-            new Product
-            {
-                Id=1,
-                Name="Mouse",
-                Price=350,
-                RemainingStock=50,
-                Category="Accessories"
-            },
-            new Product
-            {
-                Id=2,
-                Name="Keyboard",
-                Price=800,
-                RemainingStock=30,
-                Category="Accessories"
-            },
-            new Product
-            {
-                Id=3,
-                Name="Headset",
-                Price=1200,
-                RemainingStock=20,
-                Category="Audio"
-            },
-            new Product
-            {
-                Id=4,
-                Name="Flash Drive",
-                Price=500,
-                RemainingStock=15,
-                Category="Storage"
-            },
-            new Product
-            {
-                Id=5,
-                Name="Monitor",
-                Price=6500,
-                RemainingStock=10,
-                Category="Display"
-            }
-            };
+            Product[] product = new Product[5];
 
+            product[0] = new Product();
+            product[0].setId(1);
+            product[0].setName("Mouse");
+            product[0].setPrice(350);
+            product[0].setRemainingStock(50);
+            product[0].setCategory("Accessories");
+
+            product[1] = new Product();
+            product[1].setId(2);
+            product[1].setName("Keyboard");
+            product[1].setPrice(800);
+            product[1].setRemainingStock(30);
+            product[1].setCategory("Accessories");
+
+            product[2] = new Product();
+            product[2].setId(3);
+            product[2].setName("Headset");
+            product[2].setPrice(1200);
+            product[2].setRemainingStock(20);
+            product[2].setCategory("Audio");
+
+            product[3] = new Product();
+            product[3].setId(4);
+            product[3].setName("Flash Drive");
+            product[3].setPrice(500);
+            product[3].setRemainingStock(15);
+            product[3].setCategory("Storage");
+
+            product[4] = new Product();
+            product[4].setId(5);
+            product[4].setName("Monitor");
+            product[4].setPrice(6500);
+            product[4].setRemainingStock(10);
+            product[4].setCategory("Display");
             
             int receiptNo = 0;
             double[] history = new double[25];
@@ -95,7 +140,7 @@ namespace quiz
 
     for (int i = 0; i < product.Length; i++)
     {
-        product[i].DisplayProduct();
+        product[i].displayProduct();
     }
 
     Console.WriteLine("\n1 - Add Product");
@@ -141,7 +186,7 @@ namespace quiz
         break;
     }
 
-    if (!selected.HasEnoughStock(qty))
+    if (!selected.hasEnoughStock(qty))
     {
         Console.WriteLine("Not enough stock!");
         break;
@@ -154,7 +199,7 @@ namespace quiz
         if (cartIds[i] == id)
         {
             cartQty[i] += qty;
-            cartSub[i] = product[id - 1].GetItemTotal(cartQty[i]);
+            cartSub[i] = product[id - 1].getItemTotal(cartQty[i]);
             exists = true;
             break;
         }
@@ -170,11 +215,11 @@ namespace quiz
 
     cartIds[cartCount] = id;
     cartQty[cartCount] = qty;
-    cartSub[cartCount] = selected.GetItemTotal(qty);
+    cartSub[cartCount] = selected.getItemTotal(qty);
     cartCount++;
     }
 
-    selected.DeductStock(qty);
+    selected.deductStock(qty);
     Console.WriteLine("Item added!");
 
     break;
@@ -215,7 +260,7 @@ namespace quiz
                         continue;
                     }
 
-                    Console.WriteLine($"{product[cartIds[i] - 1].Name} x{cartQty[i]}");
+                    Console.WriteLine($"{product[cartIds[i] - 1].getName()} x{cartQty[i]}");
                     hasItems = true;
                 }
 
@@ -245,8 +290,9 @@ namespace quiz
                 {
                     if (cartIds[i] == removeId)
                     {
-                        product[removeId - 1].RemainingStock += cartQty[i];
-
+                        product[removeId - 1].setRemainingStock(
+                        product[removeId - 1].getRemainingStock() + cartQty[i]
+                        );
                         cartIds[i] = 0;
                         cartQty[i] = 0;
                         cartSub[i] = 0;
@@ -298,21 +344,23 @@ namespace quiz
 
                         if (difference > 0)
                         {
-                            if (!product[updateId - 1].HasEnoughStock(difference))
+                            if (!product[updateId - 1].hasEnoughStock(difference))
                             {
                                 Console.WriteLine("Not enough stock!");
                                 break;
                             }
 
-                            product[updateId - 1].DeductStock(difference);
+                            product[updateId - 1].deductStock(difference);
                         }
                         else if (difference < 0)
                         {
-                            product[updateId - 1].RemainingStock += (-difference);
+                            product[updateId - 1].setRemainingStock(
+                            product[updateId - 1].getRemainingStock() + Math.Abs(difference)
+                            );
                         }
 
                         cartQty[i] = newQty;
-                        cartSub[i] = product[updateId - 1].GetItemTotal(newQty);
+                        cartSub[i] = product[updateId - 1].getItemTotal(newQty);
 
                         Console.WriteLine("Quantity updated!");
                         found = true;
@@ -369,9 +417,11 @@ namespace quiz
 
             for (int j = 0; j < product.Length; j++)
             {
-                if (product[j].Id == cartIds[i])
+                if (product[j].getId() == cartIds[i])
                 {
-                    product[j].RemainingStock += cartQty[i];
+                    product[j].setRemainingStock(
+                    product[j].getRemainingStock() + cartQty[i]
+                    );
                     break;
                 }
             }
@@ -410,9 +460,9 @@ namespace quiz
 
             for (int i = 0; i < product.Length; i++)
             {
-              if(product[i].Name.ToLower().Contains(name))
+              if(product[i].getName().ToLower().Contains(name))
             {
-              product[i].DisplayProduct();
+              product[i].displayProduct();
               foundName = true;
             }
             }
@@ -431,9 +481,9 @@ namespace quiz
             string cat = Console.ReadLine().ToLower();
 
             for (int i = 0; i < product.Length; i++){
-                if(product[i].Category.ToLower().Contains(cat))
+                if(product[i].getCategory().ToLower().Contains(cat))
                 {
-                product[i].DisplayProduct();
+                product[i].displayProduct();
                 foundCategory = true;
                 }
             }
@@ -455,7 +505,7 @@ namespace quiz
                 {
                     if (cartIds[i] == 0) continue;
                     hasCheckoutItems = true;
-                    total += product[cartIds[i] - 1].GetItemTotal(cartQty[i]); 
+                    total += product[cartIds[i] - 1].getItemTotal(cartQty[i]); 
                 }
                 if (!hasCheckoutItems)
                 {
@@ -528,9 +578,9 @@ namespace quiz
                     Console.WriteLine("\n--- LOW STOCK ALERT ---");
                     for (int i = 0; i < product.Length; i++)
                     {
-                        if (product[i].RemainingStock <= 5)
+                        if (product[i].getRemainingStock() <= 5)
                         {
-                            Console.WriteLine($"{product[i].Name} low stock: {product[i].RemainingStock}");
+                            Console.WriteLine($"{product[i].getName()} low stock: {product[i].getRemainingStock()}");
                         }
                     }
                 }
